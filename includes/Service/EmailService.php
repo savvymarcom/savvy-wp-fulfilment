@@ -146,7 +146,8 @@ class EmailService
         $emailContent = $this->emailTemplate($emailTitle, $emailHeading, $emailBody);
         
         //$success = wp_mail($this->adminEmail, $subject, $emailContent, $this->headers);
-        $success = wp_mail('robolist@gmail.com', $subject, $emailContent, $this->headers);
+        //$success = wp_mail('robolist@gmail.com', $subject, $emailContent, $this->headers);
+        $success = WC()->mailer()->send($this->adminEmail, $subject, $emailContent, $this->headers);        
 
         if (!$success) {
             error_log('[SavvyWebPlugin] ❌ wp_mail failed to send.');
