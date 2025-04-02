@@ -50,7 +50,7 @@ class SavvyPluginConfig
 
     private function setSavvyApiUrl(): void
     {
-        $this->savvyBaseApiUrl = 'http://savvyweb.local/api/v1/';
+        $this->savvyBaseApiUrl = 'https://admin.savvyweb.uk/api/v1/';
     }
 
 
