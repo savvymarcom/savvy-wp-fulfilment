@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     SavvyWeb Fulfilment
  * Description:     Custom fulfilment integration for Savvy Web.
- * Version:         1.3.12
+ * Version:         1.3.14
  * Author:          SavvyWeb Solutions
  */
 
