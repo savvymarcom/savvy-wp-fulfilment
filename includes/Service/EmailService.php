@@ -102,7 +102,7 @@ class EmailService
         EOD;
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
-        wc_mail($adminEmail, $subject, $body, $headers);
+        wp_mail($adminEmail, $subject, $body, $headers);
     }
 
 
@@ -175,7 +175,7 @@ class EmailService
         EOD;
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
-        wc_mail($adminEmail, $subject, $body, $headers);
+        wp_mail($adminEmail, $subject, $body, $headers);
     }
 
 }

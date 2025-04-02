@@ -20,10 +20,10 @@ class SavvyApiService
 
     public function registerSite(): void
     {
-        $alreadyRegistered = get_option('savvy_web_registered', false);
-        if ($alreadyRegistered) {
-            return;
-        }
+        // $alreadyRegistered = get_option('savvy_web_registered', false);
+        // if ($alreadyRegistered) {
+        //     return;
+        // }
 
         $siteData = $this->getSiteInfo();
 
