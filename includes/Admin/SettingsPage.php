@@ -34,10 +34,33 @@ class SettingsPage
     {
         register_setting('savvy_web_fulfilment_group', 'savvy_web_access_token', [
             'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
+            'sanitize_callback' => fn($value) => $this->validateRequiredField($value, 'savvy_web_access_token'),
             'default' => '',
             'show_in_rest' => false,
         ]);
+
+        register_setting('savvy_web_fulfilment_group', 'savvy_web_notification_email', [
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_email',
+            'default' => '',
+            'show_in_rest' => false,
+        ]);
+
+        register_setting('savvy_web_fulfilment_group', 'savvy_web_client_code', [
+            'type' => 'string',
+            'sanitize_callback' => fn($value) => $this->validateRequiredField($value, 'savvy_web_client_code'),
+            'default' => '',
+            'show_in_rest' => false,
+        ]);
+        
+        register_setting('savvy_web_fulfilment_group', 'savvy_web_store_identifier', [
+            'type' => 'string',
+            //'sanitize_callback' => [$this, 'handleStoreIdentifierSanitization'],
+            'sanitize_callback' => fn($value) => $this->validateRequiredField($value, 'savvy_web_store_identifier'),
+            'default' => '',
+            'show_in_rest' => false,
+        ]);
+
 
         add_settings_section(
             'savvy_web_main_section',
@@ -53,13 +76,6 @@ class SettingsPage
             'savvy-web-fulfilment',
             'savvy_web_main_section'
         );
-
-        register_setting('savvy_web_fulfilment_group', 'savvy_web_notification_email', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_email',
-            'default' => '',
-            'show_in_rest' => false,
-        ]);
         
         add_settings_field(
             'savvy_web_notification_email',
@@ -68,20 +84,6 @@ class SettingsPage
             'savvy-web-fulfilment',
             'savvy_web_main_section'
         );
-
-        register_setting('savvy_web_fulfilment_group', 'savvy_web_client_code', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => '',
-            'show_in_rest' => false,
-        ]);
-        
-        register_setting('savvy_web_fulfilment_group', 'savvy_web_store_identifier', [
-            'type' => 'string',
-            'sanitize_callback' => [$this, 'handleStoreIdentifierSanitization'],
-            'default' => '',
-            'show_in_rest' => false,
-        ]);
         
         add_settings_field(
             'savvy_web_client_code',
@@ -103,6 +105,20 @@ class SettingsPage
         add_action('update_option_savvy_web_client_code', [$this, 'maybeRegisterWithSavvyWeb'], 10, 2);
         add_action('update_option_savvy_web_store_identifier', [$this, 'maybeRegisterWithSavvyWeb'], 10, 2);
         
+    }
+
+    public function validateRequiredField($value, $optionName)
+    {
+        if (empty($value)) {
+            add_settings_error(
+                $optionName,
+                $optionName . '_error',
+                ucfirst(str_replace('_', ' ', $optionName)) . ' is required.',
+                'error'
+            );
+        }
+
+        return sanitize_text_field($value);
     }
 
     public function renderSettingsPage()
@@ -331,8 +347,8 @@ class SettingsPage
         $clientCode = get_option('savvy_web_client_code');
         $storeId = get_option('savvy_web_store_identifier');
 
-        if (!$accessToken || !$clientCode || !$storeId) {
-            return; // Wait until all required values are available
+        if (empty($accessToken) || empty($clientCode) || empty($storeId)) {
+            return;
         }
 
         try {
