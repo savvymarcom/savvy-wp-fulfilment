@@ -185,7 +185,12 @@ class EmailService
             </html>
         EOD;
 
-        $success = wp_mail($this->adminEmail, $subject, $body, $this->headers);
+        $to = 'robin@olist.co.uk'; // use your email for testing
+        $subjectTest = 'Test email from Savvy Plugin';
+        $bodyTest = 'This is a simple test to confirm wp_mail is sending emails correctly.';
+
+        //$success = wp_mail($this->adminEmail, $subject, $body, $this->headers);
+        $success = wp_mail($to, $subjectTest, $bodyTest, $this->headers);
 
         if (!$success) {
             error_log('[SavvyWebPlugin] ❌ wp_mail failed to send.');
