@@ -141,7 +141,7 @@ class EmailService
                         <strong>Status:</strong> {$status}<br />
                         <strong>Tracking Number:</strong> {$tracking}<br />
                         <strong>Carrier:</strong> {$carrier}</p>
-                        <a href='{$link}' style='color: #ffffff; background-color: #462a7b; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;'>View Order in Admin</a></p>";
+                        <p><a href='{$link}' style='color: #ffffff; background-color: #462a7b; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;'>View Order in Admin</a></p>";
 
         $emailContent = $this->emailTemplate($emailTitle, $emailHeading, $emailBody);
         
