@@ -19,7 +19,7 @@ class EmailService
     public function __construct()
     {
         $this->savvyPluginConfig = new SavvyPluginConfig();
-        $this->init()
+        $this->init();
     }
 
     private function init()
