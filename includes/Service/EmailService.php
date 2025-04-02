@@ -141,15 +141,17 @@ class EmailService
                         <strong>Status:</strong> {$status}<br />
                         <strong>Tracking Number:</strong> {$tracking}<br />
                         <strong>Carrier:</strong> {$carrier}</p>
-                        <table role='presentation' cellspacing='0' cellpadding='0' border='0' align='center'>
-                            <tr>
-                                <td style='border-radius: 5px; background-color: #462a7b; padding: 10px 20px; text-align: center;'>
-                                    <a href='{$link}' style='background-color: #462a7b; color: #ffffff; text-decoration: none; font-family: sans-serif; font-size: 16px; display: block;'>
-                                        View Order in Admin
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>";
+                        <p>
+                            <table role='presentation' cellspacing='0' cellpadding='0' border='0' align='center'>
+                                <tr>
+                                    <td style='border-radius: 5px; background-color: #462a7b; padding: 10px 20px; text-align: center;'>
+                                        <a href='{$link}' style='background-color: #462a7b; color: #ffffff; text-decoration: none; font-family: sans-serif; font-size: 16px; display: block;'>
+                                            View Order in Admin
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p>";
 
         $emailContent = $this->emailTemplate($emailTitle, $emailHeading, $emailBody);
         
