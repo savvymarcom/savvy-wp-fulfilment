@@ -15,11 +15,10 @@ class EmailService
         $this->savvyPluginConfig = new SavvyPluginConfig();
     }
 
-
     public function sendFulfilmentErrorEmail(WC_Order $order, string $error): void
     {
 
-        $adminEmail = get_option('savvy_web_notification_email') ?: get_option('admin_email');
+        $fromEmail = get_option('savvy_web_notification_email') ?: get_option('admin_email');
         
         $subject = 'WooCommerce Order #' . $order->get_id() . ' - Fulfilment Error';
         $link = admin_url("post.php?post={$order->get_id()}&action=edit");
@@ -101,14 +100,22 @@ class EmailService
             </html>
         EOD;
 
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        wp_mail($adminEmail, $subject, $body, $headers);
+        $headers = [
+            'Content-Type: text/html; charset=UTF-8',
+            'From: ' . $this->savvyPluginConfig->getSavvyPluginName() . " <{$fromEmail}>"
+        ];
+
+        $success = wp_mail($fromEmail, $subject, $body, $headers);
+
+        if (!$success) {
+            error_log('[SavvyWebPlugin] Email failed to send to ' . $fromEmail . ' for order ID ' . $order->get_id());
+        }
     }
 
 
     public function sendFulfilmentStatusUpdateEmail($orderId, $status, $tracking, $carrier): void
     {
-        $adminEmail = get_option('savvy_web_notification_email') ?: get_option('admin_email');
+        $fromEmail = get_option('savvy_web_notification_email') ?: get_option('admin_email');
         $subject = "WooCommerce #{$orderId} marked as Fulfilled";
         $link = admin_url("post.php?post={$orderId}&action=edit");
 
@@ -174,8 +181,16 @@ class EmailService
             </html>
         EOD;
 
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        wp_mail($adminEmail, $subject, $body, $headers);
+        $headers = [
+            'Content-Type: text/html; charset=UTF-8',
+            'From: ' . $this->savvyPluginConfig->getSavvyPluginName() . " <{$fromEmail}>"
+        ];
+
+        $success = wp_mail($fromEmail, $subject, $body, $headers);
+
+        if (!$success) {
+            error_log('[SavvyWebPlugin] Email failed to send to ' . $fromEmail . ' for order ID ' . $order->get_id());
+        }
     }
 
 }
