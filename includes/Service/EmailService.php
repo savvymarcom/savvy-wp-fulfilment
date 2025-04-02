@@ -133,12 +133,34 @@ class EmailService
         $subject = "WooCommerce #{$orderId} marked as Fulfilled";
         $link = admin_url("post.php?post={$orderId}&action=edit");
 
-        $body = <<<EOD
+        $emailTitle = "WooCommerce Order #{$orderId} marked as Fulfilled";
+        $emailHeading = "Order #{$orderId} Fulfilled by {$this->brandName}";
+        $emailBody = "<p>The following order has been marked as fulfilled by {$this->brandName}:</p>
+                        <p><strong>Order ID:</strong> #{$orderId}<br />
+                        <strong>Status:</strong> {$status}<br />
+                        <strong>Tracking Number:</strong> {$tracking}<br />
+                        <strong>Carrier:</strong> {$carrier}</p>
+                        <p><a href='{$link}' style='color: #ffffff; background-color: #007bff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;'>View Order in Admin</a></p>";
+
+        $emailContent = $this->emailTemplate($emailTitle, $emailHeading, $emailBody);
+        
+        $success = wp_mail($this->adminEmail, $subject, $emailContent, $this->headers);
+
+        if (!$success) {
+            error_log('[SavvyWebPlugin] ❌ wp_mail failed to send.');
+        } else {
+            error_log('[SavvyWebPlugin] ✅ Test email sent.');
+        }
+    }
+
+    private function emailTemplate($title, $heading, $body)
+    {
+        return <<<EOD
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-                <title>WooCommerce Order #{$orderId} marked as Fulfilled</title>
+                <title>{$title}</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             </head>
             <body style="margin: 0; padding: 0; background-color: #f4f4f4;">
@@ -153,24 +175,19 @@ class EmailService
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;">
-                                        <b>Order #{$orderId} Fulfilled by {$this->brandName}</b>
+                                        <b>{$heading}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
-                                        <p>The following order has been marked as fulfilled by {$this->brandName}:</p>
-                                        <p><strong>Order ID:</strong> #{$orderId}<br />
-                                        <strong>Status:</strong> {$status}<br />
-                                        <strong>Tracking Number:</strong> {$tracking}<br />
-                                        <strong>Carrier:</strong> {$carrier}</p>
-                                        <p><a href="{$link}" style="color: #ffffff; background-color: #007bff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">View Order in Admin</a></p>
+                                        {$body}
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-color: #eeeeee; padding: 30px 30px 30px 30px;">
+                        <td style="background-color:rgb(88, 88, 88); padding: 30px 30px 30px 30px;">
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
@@ -184,19 +201,6 @@ class EmailService
             </body>
             </html>
         EOD;
-
-        $to = 'robin@olist.co.uk'; // use your email for testing
-        $subjectTest = 'Test email from Savvy Plugin';
-        $bodyTest = 'This is a simple test to confirm wp_mail is sending emails correctly.';
-
-        //$success = wp_mail($this->adminEmail, $subject, $body, $this->headers);
-        $success = wp_mail($to, $subjectTest, $body, $this->headers);
-
-        if (!$success) {
-            error_log('[SavvyWebPlugin] ❌ wp_mail failed to send.');
-        } else {
-            error_log('[SavvyWebPlugin] ✅ Test email sent.');
-        }
     }
 
 }
