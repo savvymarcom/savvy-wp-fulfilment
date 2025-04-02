@@ -145,7 +145,7 @@ class EmailService
                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff;">
                     <tr>
                         <td align="center" style="padding: 40px 0 30px 0;">
-                            {$this->logo}
+                            Logo should go here...
                         </td>
                     </tr>
                     <tr>
@@ -190,7 +190,7 @@ class EmailService
         $bodyTest = 'This is a simple test to confirm wp_mail is sending emails correctly.';
 
         //$success = wp_mail($this->adminEmail, $subject, $body, $this->headers);
-        $success = wp_mail($to, $subjectTest, $bodyTest, $this->headers);
+        $success = wp_mail($to, $subjectTest, $body, $this->headers);
 
         if (!$success) {
             error_log('[SavvyWebPlugin] ❌ wp_mail failed to send.');
