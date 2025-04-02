@@ -20,7 +20,7 @@ SavvyWebFulfilment\Autoloader::register();
 add_action('plugins_loaded', function () {
     new SavvyWebFulfilment\Plugin();
 });
-
+ 
 // Activation & Deactivation Hooks
 register_activation_hook(__FILE__, ['SavvyWebFulfilment\Plugin', 'activate']);
 register_deactivation_hook(__FILE__, ['SavvyWebFulfilment\Plugin', 'deactivate']);
