@@ -67,14 +67,15 @@ class Plugin
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE $logTable (
-            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id BIGINT UNSIGNED AUTO_INCREMENT,
             order_ref VARCHAR(20) DEFAULT NULL,
             request_method VARCHAR(10),
             endpoint VARCHAR(255),
             response_code SMALLINT,
             status VARCHAR(20),
             message TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
         ) $charset_collate;";
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';

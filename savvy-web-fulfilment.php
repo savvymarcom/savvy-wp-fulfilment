@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     SavvyWeb Fulfilment
  * Description:     Custom fulfilment integration for Savvy Web.
- * Version:         1.3.20
+ * Version:         1.3.21
  * Author:          SavvyWeb Solutions
  */
 
@@ -18,7 +18,9 @@ SavvyWebFulfilment\Autoloader::register();
 
 // Instantiate the main plugin class
 add_action('plugins_loaded', function () {
-    new SavvyWebFulfilment\Plugin();
+    if (class_exists('SavvyWebFulfilment\\Plugin')) {
+        new SavvyWebFulfilment\Plugin();
+    }
 });
  
 // Activation & Deactivation Hooks
