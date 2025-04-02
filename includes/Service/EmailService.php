@@ -135,12 +135,14 @@ class EmailService
 
         $emailTitle = "WooCommerce Order #{$orderId} marked as Fulfilled";
         $emailHeading = "Order #{$orderId} Fulfilled by {$this->brandName}";
+        $button = $this->renderButton("View Order in Admin", $link);
+
         $emailBody = "<p>The following order has been marked as fulfilled by {$this->brandName}:</p>
                         <p><strong>Order ID:</strong> #{$orderId}<br />
                         <strong>Status:</strong> {$status}<br />
                         <strong>Tracking Number:</strong> {$tracking}<br />
                         <strong>Carrier:</strong> {$carrier}</p>
-                        <p><a href='{$link}' style='color: #ffffff; background-color: #007bff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;'>View Order in Admin</a></p>";
+                        {$button}";
 
         $emailContent = $this->emailTemplate($emailTitle, $emailHeading, $emailBody);
         
@@ -163,7 +165,7 @@ class EmailService
                 <title>{$title}</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             </head>
-            <body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+            <body style="margin: 0; padding: 0; background-color: #f6f6f6;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff;">
                     <tr>
                         <td align="center" style="padding: 40px 0 30px 0;">
@@ -174,7 +176,7 @@ class EmailService
                         <td style="padding: 40px 30px 40px 30px;">
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;">
+                                    <td style="color: #462a7b; font-family: Arial, sans-serif; font-size: 24px;">
                                         <b>{$heading}</b>
                                     </td>
                                 </tr>
@@ -187,7 +189,7 @@ class EmailService
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-color:rgb(88, 88, 88); padding: 30px 30px 30px 30px;">
+                        <td style="background-color: #462a7b; padding: 30px 30px 30px 30px;">
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
@@ -201,6 +203,19 @@ class EmailService
             </body>
             </html>
         EOD;
+    }
+
+    private function renderButton($label, $url)
+    {
+        return "<table role='presentation' cellspacing='0' cellpadding='0' border='0' align='center'>
+                    <tr>
+                        <td style='border-radius: 5px; background-color: #462a7b; padding: 10px 20px; text-align: center;'>
+                            <a href='{$url}' style='background-color: #462a7b; color: #ffffff; text-decoration: none; font-family: sans-serif; font-size: 16px; display: block;'>
+                                {$label}
+                            </a>
+                        </td>
+                    </tr>
+                </table>";
     }
 
 }
