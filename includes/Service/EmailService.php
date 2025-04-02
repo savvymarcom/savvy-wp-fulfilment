@@ -129,20 +129,27 @@ class EmailService
 
     public function sendFulfilmentStatusUpdateEmail($orderId, $status, $tracking, $carrier): void
     {
-        
+
         $subject = "WooCommerce #{$orderId} marked as Fulfilled";
         $link = admin_url("post.php?post={$orderId}&action=edit");
 
         $emailTitle = "WooCommerce Order #{$orderId} marked as Fulfilled";
         $emailHeading = "Order #{$orderId} Fulfilled by {$this->brandName}";
-        $button = $this->renderButton("View Order in Admin", $link);
 
         $emailBody = "<p>The following order has been marked as fulfilled by {$this->brandName}:</p>
                         <p><strong>Order ID:</strong> #{$orderId}<br />
                         <strong>Status:</strong> {$status}<br />
                         <strong>Tracking Number:</strong> {$tracking}<br />
                         <strong>Carrier:</strong> {$carrier}</p>
-                        {$button}";
+                        <table role='presentation' cellspacing='0' cellpadding='0' border='0' align='center'>
+                            <tr>
+                                <td style='border-radius: 5px; background-color: #462a7b; padding: 10px 20px; text-align: center;'>
+                                    <a href='{$link}' style='background-color: #462a7b; color: #ffffff; text-decoration: none; font-family: sans-serif; font-size: 16px; display: block;'>
+                                        View Order in Admin
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>";
 
         $emailContent = $this->emailTemplate($emailTitle, $emailHeading, $emailBody);
         
@@ -203,19 +210,6 @@ class EmailService
             </body>
             </html>
         EOD;
-    }
-
-    private function renderButton($label, $url)
-    {
-        return "<table role='presentation' cellspacing='0' cellpadding='0' border='0' align='center'>
-                    <tr>
-                        <td style='border-radius: 5px; background-color: #462a7b; padding: 10px 20px; text-align: center;'>
-                            <a href='{$url}' style='background-color: #462a7b; color: #ffffff; text-decoration: none; font-family: sans-serif; font-size: 16px; display: block;'>
-                                {$label}
-                            </a>
-                        </td>
-                    </tr>
-                </table>";
     }
 
 }
